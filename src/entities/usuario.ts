@@ -1,4 +1,4 @@
-import { z } from '@hono/zod-openapi';
+import { z } from 'zod';
 import { CpfSchema } from './cpf';
 import { CrmSchema } from './crm';
 
@@ -15,3 +15,5 @@ export const UsuarioSchema = z.object({
 
   return true;
 }, {message: "CRM é obrigatório para Médico", path: ['tipo', 'crm']});
+
+export type Usuario = z.infer<typeof UsuarioSchema>;
