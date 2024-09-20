@@ -3,26 +3,14 @@ import { swaggerUI } from '@hono/swagger-ui'
 import { cadastroRoute } from './routes/cadastroRoute'
 import { logger } from 'hono/logger'
 import { setupGateways, UseCasesVariables } from './middleware/setupGateways'
+import { AuthVariables } from './middleware/auth'
+import { getUsuarioLogadoRoute } from './routes/getUsuarioLogadoRoute'
+import { updateUsuarioLogadoRoute } from './routes/updateUsuarioLogadoRoute'
+import { deleteUsuarioLogadoRoute } from './routes/deleteUsuarioLogadoRoute'
 
-export type Variables = UseCasesVariables
+export type Variables = UseCasesVariables & AuthVariables
 
-export const app = new OpenAPIHono<{Variables: Variables}>(
-//   {
-//   defaultHook: (result, c) => {
-//     console.info('defaultHook', result)
-//     if (!result.success) {
-//       return c.json(
-//         {
-//           ok: false,
-//           errors: result,
-//           source: 'custom_error_handler',
-//         },
-//         422
-//       )
-//     }
-//   },
-// }
-)
+export const app = new OpenAPIHono<{Variables: Variables}>()
 
 app.use(logger())
 app.use(setupGateways)
@@ -34,6 +22,9 @@ app.get('/', (c) => {
 app.get('/docs', swaggerUI({ url: '/openapi' }))
 
 app.route('/', cadastroRoute)
+app.route('/', getUsuarioLogadoRoute)
+app.route('/', updateUsuarioLogadoRoute)
+app.route('/', deleteUsuarioLogadoRoute)
 
 app.doc('/openapi', {
   openapi: '3.0.0',

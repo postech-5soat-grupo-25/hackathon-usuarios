@@ -27,7 +27,7 @@ const route = createRoute({
           schema: UsuarioSchema,
         },
       },
-      description: "Retrieve the user",
+      description: "Usuário criado",
     },
   },
 });

@@ -11,19 +11,19 @@ export class PacienteUseCases {
     this.medicoGateway = medicoGateway;
   }
 
-  async obterInformacoesPacienteLogado(usuarioLogado: Usuario) {
-    return await this.pacienteGateway.buscarPacientePorCpf(usuarioLogado.cpf);
+  async obterInformacoesPacienteLogado(cpf: string) {
+    return await this.pacienteGateway.buscarPacientePorCpf(cpf);
   }
 
   async obterInformacoesMedico(cpf: string) {
     return await this.medicoGateway.buscarMedicoPorCpf(cpf);
   }
 
-  async atualizarInformacoesPacienteLogado(usuarioLogado: Usuario, novasInformacoes: Partial<Usuario>) {
-    return await this.pacienteGateway.atualizarPaciente({cpf: usuarioLogado.cpf, ...novasInformacoes});
+  async atualizarInformacoesPacienteLogado(cpf: string, novasInformacoes: Partial<Usuario>) {
+    return await this.pacienteGateway.atualizarPaciente({cpf, ...novasInformacoes});
   }
 
-  async excluirContaPacienteLogado(usuarioLogado: Usuario) {
-    return await this.pacienteGateway.deletarPaciente(usuarioLogado.cpf);
+  async excluirContaPacienteLogado(cpf: string) {
+    return await this.pacienteGateway.deletarPaciente(cpf);
   }
 }
