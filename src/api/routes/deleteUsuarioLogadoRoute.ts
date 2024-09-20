@@ -1,5 +1,4 @@
 import { createRoute, OpenAPIHono, z } from "@hono/zod-openapi";
-import { UsuarioSchema } from "../../entities/usuario";
 import { Variables } from "..";
 import { MedicoUseCases } from "../../use-cases/medicoUseCases";
 import { PacienteUseCases } from "../../use-cases/pacienteUseCases";
@@ -44,5 +43,5 @@ deleteUsuarioLogadoRoute.openapi(route, async (c) => {
     return c.json(excluido)
   }
 
-  throw new HTTPException(400, {message: "Tipo de usuário inválido"})
+  throw new HTTPException(403, {message: "Tipo de usuário inválido"})
 })

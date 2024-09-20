@@ -1,10 +1,11 @@
 import { createRoute, OpenAPIHono } from "@hono/zod-openapi";
-import { UsuarioSchema, UsuarioUpdateInputSchema } from "../../entities/usuario";
+import { UsuarioSchema } from "../../entities/usuario";
 import { Variables } from "..";
 import { MedicoUseCases } from "../../use-cases/medicoUseCases";
 import { PacienteUseCases } from "../../use-cases/pacienteUseCases";
 import { auth } from "../middleware/auth";
 import { HTTPException } from 'hono/http-exception'
+import { UsuarioUpdateInputSchema } from "../schema/usuarioSchema";
 
 export const updateUsuarioLogadoRoute = new OpenAPIHono<{
   Variables: Variables;
@@ -62,5 +63,5 @@ updateUsuarioLogadoRoute.openapi(route, async (c) => {
     return c.json(paciente)
   }
 
-  throw new HTTPException(400, {message: "Tipo de usuário inválido"})
+  throw new HTTPException(403, {message: "Tipo de usuário inválido"})
 })

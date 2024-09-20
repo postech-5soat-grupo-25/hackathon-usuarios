@@ -7,10 +7,14 @@ import { AuthVariables } from './middleware/auth'
 import { getUsuarioLogadoRoute } from './routes/getUsuarioLogadoRoute'
 import { updateUsuarioLogadoRoute } from './routes/updateUsuarioLogadoRoute'
 import { deleteUsuarioLogadoRoute } from './routes/deleteUsuarioLogadoRoute'
+import { getMedicoRoute } from './routes/getMedicoRoute'
+import { getPacienteRoute } from './routes/getPacienteRoute'
 
 export type Variables = UseCasesVariables & AuthVariables
 
 export const app = new OpenAPIHono<{Variables: Variables}>()
+
+const apiRoute = '/'
 
 app.use(logger())
 app.use(setupGateways)
@@ -21,10 +25,15 @@ app.get('/', (c) => {
 
 app.get('/docs', swaggerUI({ url: '/openapi' }))
 
-app.route('/', cadastroRoute)
-app.route('/', getUsuarioLogadoRoute)
-app.route('/', updateUsuarioLogadoRoute)
-app.route('/', deleteUsuarioLogadoRoute)
+app.route(apiRoute, cadastroRoute)
+
+app.route(apiRoute, getUsuarioLogadoRoute)
+app.route(apiRoute, updateUsuarioLogadoRoute)
+app.route(apiRoute, deleteUsuarioLogadoRoute)
+
+app.route(apiRoute, getMedicoRoute)
+
+app.route(apiRoute, getPacienteRoute)
 
 app.doc('/openapi', {
   openapi: '3.0.0',

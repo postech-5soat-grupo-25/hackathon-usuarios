@@ -10,18 +10,6 @@ export const UsuarioSchema = z.object({
   tipo: z.enum(["medico", "paciente", "admin"]),
 }).openapi("Usuario");
 
-export const UsuarioUpdateInputSchema = z
-  .object({
-    ...UsuarioSchema.partial().shape,
-    senha: z.string().optional(),
-    confirmacaoSenha: z.string().optional(),
-  })
-  .refine((data) => data.senha === data.confirmacaoSenha, {
-    message: "As senhas não conferem",
-    path: ["confirmacaoSenha"],
-  })
-  .openapi("UsuarioUpdateInput");
-
 export const UsuarioCreateInputSchema = z
   .object({
     ...UsuarioSchema.shape,

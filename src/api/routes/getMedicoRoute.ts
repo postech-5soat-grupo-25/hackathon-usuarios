@@ -5,15 +5,19 @@ import { MedicoUseCases } from "../../use-cases/medicoUseCases";
 import { PacienteUseCases } from "../../use-cases/pacienteUseCases";
 import { auth } from "../middleware/auth";
 import { HTTPException } from 'hono/http-exception'
+import { FetchUserParamSchema } from "../schema/usuarioSchema";
 
-export const getUsuarioLogadoRoute = new OpenAPIHono<{
+export const getMedicoRoute = new OpenAPIHono<{
   Variables: Variables;
 }>();
 
 const route = createRoute({
   method: "get",
-  path: "/me",
-  tags: ["Usuário Logado"],
+  path: "/medico/{cpf}",
+  tags: ["Médico"],
+  request: {
+    params: FetchUserParamSchema
+  },
   responses: {
     200: {
       content: {
@@ -21,33 +25,31 @@ const route = createRoute({
           schema: UsuarioSchema,
         },
       },
-      description: "Retorna informações do usuário logado",
+      description: "Retorna informações do médico",
     },
   },
 });
 
-getUsuarioLogadoRoute.use('/me', auth)
+getMedicoRoute.use('/medico/*', auth)
 
-getUsuarioLogadoRoute.openapi(route, async (c) => {
+getMedicoRoute.openapi(route, async (c) => {
   const usuario = c.get("usuario")
   const pacienteGateway = c.get("pacienteGateway")
   const medicoGateway = c.get("medicoGateway")
-  if (usuario.tipo === "medico") {
-    const medicoUseCases = new MedicoUseCases(pacienteGateway, medicoGateway)
-    const medico = await medicoUseCases.obterInformacoesMedicoLogado(usuario.cpf)
+
+  const { cpf } = c.req.valid('param')
+
+  if (usuario.tipo === "paciente") {
+    const pacienteUseCases = new PacienteUseCases(pacienteGateway, medicoGateway)
+    const medico = await pacienteUseCases.obterInformacoesMedico(cpf)
     if (!medico) {
-      throw new HTTPException(404, {message: "Médico não encontrado"})
+      throw new HTTPException(404, {message: "Paciente não encontrado"})
     }
     return c.json(medico)
   }
 
-  if (usuario.tipo === "paciente") {
-    const pacienteUseCases = new PacienteUseCases(pacienteGateway, medicoGateway)
-    const paciente = await pacienteUseCases.obterInformacoesPacienteLogado(usuario.cpf)
-    if (!paciente) {
-      throw new HTTPException(404, {message: "Paciente não encontrado"})
-    }
-    return c.json(paciente)
+  if (usuario.tipo === "admin") {
+    console.info("Admin needs to be implemented")
   }
 
   throw new HTTPException(403, {message: "Tipo de usuário inválido"})

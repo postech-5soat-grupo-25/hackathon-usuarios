@@ -2,7 +2,14 @@ import { Usuario, UsuarioSchema } from "../entities/usuario"
 import { PacienteInput, PacienteUpdateInput } from "../interfaces/pacienteGateway"
 import { PacienteGateway } from "../interfaces/pacienteGateway"
 
-const pacientes: Usuario[] = [];
+const pacientes: Usuario[] = [
+  {
+    cpf: "37543105853",
+    nome: "Paciente Exemplo",
+    email: "paciente@email.com",
+    tipo: "paciente",
+  }
+];
 
 export const InMemoryPacienteGateway: PacienteGateway = {
   async cadastrarPaciente(paciente: PacienteInput) {
