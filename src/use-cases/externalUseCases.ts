@@ -1,3 +1,4 @@
+import { Usuario } from "../entities/usuario";
 import { MedicoGateway, MedicoInput } from "../interfaces/medicoGateway";
 import { PacienteGateway, PacienteInput } from "../interfaces/pacienteGateway";
 
@@ -10,11 +11,11 @@ export class ExternalUseCases {
     this.medicoGateway = medicoGateway;
   }
 
-  async cadastrarPaciente(paciente: PacienteInput) {
+  async cadastrarPaciente(paciente: PacienteInput): Promise<Usuario> {
     return await this.pacienteGateway.cadastrarPaciente(paciente);
   }
 
-  async cadastrarMedico(medico: MedicoInput) {
+  async cadastrarMedico(medico: MedicoInput): Promise<Usuario> {
     return await this.medicoGateway.cadastrarMedico(medico);
   }
 }

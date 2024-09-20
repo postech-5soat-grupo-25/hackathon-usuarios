@@ -1,11 +1,11 @@
-import { Usuario, UsuarioSchema } from "../entities/usuario"
+import { Usuario, UsuarioCreateInput } from "../entities/usuario"
 
-export type MedicoInput = Required<Usuario> & { senha: string, confirmacaoSenha: string };
-export type MedicoUpdateInput = Partial<Usuario>;
+export type MedicoInput = Required<UsuarioCreateInput>;
+export type MedicoUpdateInput = Partial<UsuarioCreateInput>;
 
 export interface MedicoGateway {
   cadastrarMedico(medico: MedicoInput): Promise<Usuario>;
-  buscarMedicoPorCpf(cpf: string): Promise<Usuario>;
+  buscarMedicoPorCpf(cpf: string): Promise<Usuario | null>;
   atualizarMedico(medico: MedicoUpdateInput): Promise<Usuario>;
   deletarMedico(cpf: string): Promise<boolean>;
 }
