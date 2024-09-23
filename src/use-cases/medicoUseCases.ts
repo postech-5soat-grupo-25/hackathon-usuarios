@@ -1,6 +1,6 @@
 import { Usuario } from "../entities/usuario";
-import { MedicoGateway, MedicoInput } from "../interfaces/medicoGateway";
-import { PacienteGateway, PacienteInput } from "../interfaces/pacienteGateway";
+import { MedicoGateway } from "../interfaces/medicoGateway";
+import { PacienteGateway } from "../interfaces/pacienteGateway";
 
 export class MedicoUseCases {
   private pacienteGateway: PacienteGateway;

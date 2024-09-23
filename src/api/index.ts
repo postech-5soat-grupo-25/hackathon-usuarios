@@ -9,6 +9,12 @@ import { updateUsuarioLogadoRoute } from './routes/updateUsuarioLogadoRoute'
 import { deleteUsuarioLogadoRoute } from './routes/deleteUsuarioLogadoRoute'
 import { getMedicoRoute } from './routes/getMedicoRoute'
 import { getPacienteRoute } from './routes/getPacienteRoute'
+import { getPacienteListRoute } from './routes/getPacienteListRoute'
+import { getMedicoListRoute } from './routes/getMedicoListRoute'
+import { updateMedicoRoute } from './routes/updateMedicoRoute'
+import { deleteMedicoRoute } from './routes/deleteMedicoRoute'
+import { deletePacienteRoute } from './routes/deletePacienteRoute'
+import { updatePacienteRoute } from './routes/updatePacienteRoute'
 
 export type Variables = UseCasesVariables & AuthVariables
 
@@ -32,8 +38,14 @@ app.route(apiRoute, updateUsuarioLogadoRoute)
 app.route(apiRoute, deleteUsuarioLogadoRoute)
 
 app.route(apiRoute, getMedicoRoute)
+app.route(apiRoute, getMedicoListRoute)
+app.route(apiRoute, updateMedicoRoute)
+app.route(apiRoute, deleteMedicoRoute)
 
 app.route(apiRoute, getPacienteRoute)
+app.route(apiRoute, getPacienteListRoute)
+app.route(apiRoute, updatePacienteRoute)
+app.route(apiRoute, deletePacienteRoute)
 
 app.doc('/openapi', {
   openapi: '3.0.0',

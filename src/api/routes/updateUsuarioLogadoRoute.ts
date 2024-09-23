@@ -12,7 +12,7 @@ export const updateUsuarioLogadoRoute = new OpenAPIHono<{
 }>();
 
 const route = createRoute({
-  method: "post",
+  method: "put",
   path: "/me",
   tags: ["Usuário Logado"],
   request: {

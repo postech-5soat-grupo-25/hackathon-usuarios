@@ -2,10 +2,10 @@ import { createRoute, OpenAPIHono } from "@hono/zod-openapi";
 import { UsuarioSchema } from "../../entities/usuario";
 import { Variables } from "..";
 import { MedicoUseCases } from "../../use-cases/medicoUseCases";
-import { PacienteUseCases } from "../../use-cases/pacienteUseCases";
 import { auth } from "../middleware/auth";
 import { HTTPException } from 'hono/http-exception'
 import { FetchUserParamSchema } from "../schema/usuarioSchema";
+import { AdminUseCases } from "../../use-cases/adminUseCases";
 
 export const getPacienteRoute = new OpenAPIHono<{
   Variables: Variables;
@@ -43,13 +43,18 @@ getPacienteRoute.openapi(route, async (c) => {
     const medicoUseCases = new MedicoUseCases(pacienteGateway, medicoGateway)
     const paciente = await medicoUseCases.obterInformacoesPaciente(cpf)
     if (!paciente) {
-      throw new HTTPException(404, {message: "Médico não encontrado"})
+      throw new HTTPException(404, {message: "Paciente não encontrado"})
     }
     return c.json(paciente)
   }
 
   if (usuario.tipo === "admin") {
-    console.info("Admin ainda precisa ser implementado")
+    const adminUseCases = new AdminUseCases(pacienteGateway, medicoGateway)
+    const paciente = await adminUseCases.obterInformacoesPaciente(cpf)
+    if (!paciente) {
+      throw new HTTPException(404, {message: "Paciente não encontrado"})
+    }
+    return c.json(paciente)
   }
 
   throw new HTTPException(403, {message: "Tipo de usuário inválido"})

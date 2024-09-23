@@ -19,7 +19,9 @@ export const InMemoryPacienteGateway: PacienteGateway = {
   },
   async buscarPacientePorCpf(cpf: string) {
     return pacientes.find((paciente) => paciente.cpf === cpf) ?? null;
-
+  },
+  async listarPacientes() {
+    return pacientes;
   },
   async atualizarPaciente(paciente: PacienteUpdateInput) {
     const pacienteIndex = pacientes.findIndex((paciente) => paciente.cpf === paciente.cpf);
