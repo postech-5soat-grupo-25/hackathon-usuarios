@@ -1,6 +1,5 @@
 import { z } from "@hono/zod-openapi";
 import { UsuarioSchema } from "../../entities/usuario";
-import { CpfSchema } from "../../entities/cpf";
 
 export const UsuarioUpdateInputSchema = z
   .object({
@@ -15,13 +14,13 @@ export const UsuarioUpdateInputSchema = z
   .openapi("UsuarioUpdateInput");
 
 export const FetchUserParamSchema = z.object({
-  cpf: CpfSchema
+  username: z.string()
     .openapi({
       param: {
-        name: 'cpf',
+        name: 'username',
         in: 'path',
       },
-      example: '00000000000',
-      description: 'CPF do usuário',
+      example: 'usuario@email.com',
+      description: 'Username do usuário',
     }),
 })

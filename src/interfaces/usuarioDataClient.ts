@@ -1,6 +1,6 @@
 interface DataClient<T> {
     cadastrarUsuario(usuario: T): Promise<T>;
-    buscarUsuarioPorCpf(cpf: string): Promise<T>;
+    buscarUsuarioPorUsername(username: string): Promise<T>;
     atualizarUsuario(usuario: T): Promise<T>;
-    deletarUsuario(cpf: string): Promise<boolean>;
+    deletarUsuario(username: string): Promise<boolean>;
 }

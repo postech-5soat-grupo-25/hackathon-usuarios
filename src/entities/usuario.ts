@@ -4,6 +4,7 @@ import { CrmSchema } from "./crm";
 
 export const UsuarioSchema = z.object({
   nome: z.string(),
+  username: z.string(),
   email: z.string().email(),
   cpf: CpfSchema,
   crm: CrmSchema.optional(),

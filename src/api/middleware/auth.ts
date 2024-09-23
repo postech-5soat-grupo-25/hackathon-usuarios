@@ -3,7 +3,7 @@ import { HTTPException } from 'hono/http-exception'
 
 export type AuthVariables = {
   usuario: {
-    cpf: string,
+    username: string,
     tipo: string,
   },
 }
@@ -12,6 +12,6 @@ export type AuthVariables = {
 export const auth = createMiddleware<{Variables: AuthVariables}>(async (c, next) => {
   // const tipo = c.req.header('x-role')
   // if (!tipo) throw new HTTPException(401 ,{message: 'Usuário não autenticado'})
-  c.set('usuario', {cpf: '37543105853', tipo: 'admin'})
+  c.set('usuario', {username: '37543105853', tipo: 'admin'})
   await next()
 })

@@ -13,37 +13,37 @@ export class AdminUseCases {
 
   // Medicos
 
-  async obterInformacoesMedico(cpf: string) {
-    return await this.medicoGateway.buscarMedicoPorCpf(cpf);
+  async obterInformacoesMedico(username: string) {
+    return await this.medicoGateway.buscarMedicoPorUsername(username);
   }
 
   async listarMedicos() {
     return await this.medicoGateway.listarMedicos();
   }
 
-  async atualizarInformacoesMedico(cpf: string, novasInformacoes: Partial<Usuario>) {
-    return await this.medicoGateway.atualizarMedico({cpf, ...novasInformacoes});
+  async atualizarInformacoesMedico(username: string, novasInformacoes: Partial<Usuario>) {
+    return await this.medicoGateway.atualizarMedico({username, ...novasInformacoes});
   }
 
-  async excluirMedico(cpf: string) {
-    return await this.medicoGateway.deletarMedico(cpf);
+  async excluirMedico(username: string) {
+    return await this.medicoGateway.deletarMedico(username);
   }
 
   // Pacientes
 
-  async obterInformacoesPaciente(cpf: string) {
-    return await this.pacienteGateway.buscarPacientePorCpf(cpf);
+  async obterInformacoesPaciente(username: string) {
+    return await this.pacienteGateway.buscarPacientePorUsername(username);
   }
 
   async listarPacientes() {
     return await this.pacienteGateway.listarPacientes();
   }
 
-  async atualizarInformacoesPaciente(cpf: string, novasInformacoes: Partial<Usuario>) {
-    return await this.pacienteGateway.atualizarPaciente({cpf, ...novasInformacoes});
+  async atualizarInformacoesPaciente(username: string, novasInformacoes: Partial<Usuario>) {
+    return await this.pacienteGateway.atualizarPaciente({username, ...novasInformacoes});
   }
 
-  async excluirPaciente(cpf: string) {
-    return await this.pacienteGateway.deletarPaciente(cpf);
+  async excluirPaciente(username: string) {
+    return await this.pacienteGateway.deletarPaciente(username);
   }
 }

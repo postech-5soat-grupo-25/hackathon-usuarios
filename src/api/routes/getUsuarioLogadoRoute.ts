@@ -34,7 +34,7 @@ getUsuarioLogadoRoute.openapi(route, async (c) => {
   const medicoGateway = c.get("medicoGateway")
   if (usuario.tipo === "medico") {
     const medicoUseCases = new MedicoUseCases(pacienteGateway, medicoGateway)
-    const medico = await medicoUseCases.obterInformacoesMedicoLogado(usuario.cpf)
+    const medico = await medicoUseCases.obterInformacoesMedicoLogado(usuario.username)
     if (!medico) {
       throw new HTTPException(404, {message: "Médico não encontrado"})
     }
@@ -43,7 +43,7 @@ getUsuarioLogadoRoute.openapi(route, async (c) => {
 
   if (usuario.tipo === "paciente") {
     const pacienteUseCases = new PacienteUseCases(pacienteGateway, medicoGateway)
-    const paciente = await pacienteUseCases.obterInformacoesPacienteLogado(usuario.cpf)
+    const paciente = await pacienteUseCases.obterInformacoesPacienteLogado(usuario.username)
     if (!paciente) {
       throw new HTTPException(404, {message: "Paciente não encontrado"})
     }

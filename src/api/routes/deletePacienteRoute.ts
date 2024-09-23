@@ -11,7 +11,7 @@ export const deletePacienteRoute = new OpenAPIHono<{
 
 const route = createRoute({
   method: "delete",
-  path: "/paciente/{cpf}",
+  path: "/paciente/{username}",
   tags: ["Paciente"],
   request: {
     params: FetchUserParamSchema,
@@ -35,11 +35,11 @@ deletePacienteRoute.openapi(route, async (c) => {
   const pacienteGateway = c.get("pacienteGateway")
   const medicoGateway = c.get("medicoGateway")
 
-  const { cpf } = c.req.valid("param");
+  const { username } = c.req.valid("param");
 
   if (usuario.tipo === "admin") {
     const adminUseCases = new AdminUseCases(pacienteGateway, medicoGateway);
-    const excluido = await adminUseCases.excluirPaciente(cpf);
+    const excluido = await adminUseCases.excluirPaciente(username);
     return c.json(excluido);
   }
 

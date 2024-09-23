@@ -12,7 +12,7 @@ export const updatePacienteRoute = new OpenAPIHono<{
 
 const route = createRoute({
   method: "put",
-  path: "/paciente/{cpf}",
+  path: "/paciente/{username}",
   tags: ["Paciente"],
   request: {
     params: FetchUserParamSchema,
@@ -43,12 +43,12 @@ updatePacienteRoute.openapi(route, async (c) => {
   const pacienteGateway = c.get("pacienteGateway")
   const medicoGateway = c.get("medicoGateway")
 
-  const { cpf } = c.req.valid("param");
+  const { username } = c.req.valid("param");
   const usuarioInput = await c.req.json()
 
   if (usuario.tipo === "admin") {
     const adminUseCases = new AdminUseCases(pacienteGateway, medicoGateway);
-    const medico = await adminUseCases.atualizarInformacoesPaciente(cpf, usuarioInput);
+    const medico = await adminUseCases.atualizarInformacoesPaciente(username, usuarioInput);
     return c.json(medico);
   }
 

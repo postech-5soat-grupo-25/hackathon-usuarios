@@ -5,8 +5,8 @@ export type PacienteUpdateInput = Partial<UsuarioCreateInput>;
 
 export interface PacienteGateway {
   cadastrarPaciente(paciente: PacienteInput): Promise<Usuario>;
-  buscarPacientePorCpf(cpf: string): Promise<Usuario | null>;
+  buscarPacientePorUsername(username: string): Promise<Usuario | null>;
   listarPacientes(): Promise<Usuario[]>;
   atualizarPaciente(paciente: PacienteUpdateInput): Promise<Usuario>;
-  deletarPaciente(cpf: string): Promise<boolean>;
+  deletarPaciente(username: string): Promise<boolean>;
 }

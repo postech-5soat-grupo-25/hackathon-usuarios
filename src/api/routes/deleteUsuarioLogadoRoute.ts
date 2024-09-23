@@ -33,13 +33,13 @@ deleteUsuarioLogadoRoute.openapi(route, async (c) => {
   const medicoGateway = c.get("medicoGateway")
   if (usuario.tipo === "medico") {
     const medicoUseCases = new MedicoUseCases(pacienteGateway, medicoGateway)
-    const excluido = await medicoUseCases.excluirContaMedicoLogado(usuario.cpf)
+    const excluido = await medicoUseCases.excluirContaMedicoLogado(usuario.username)
     return c.json(excluido)
   }
 
   if (usuario.tipo === "paciente") {
     const pacienteUseCases = new PacienteUseCases(pacienteGateway, medicoGateway)
-    const excluido = await pacienteUseCases.excluirContaPacienteLogado(usuario.cpf)
+    const excluido = await pacienteUseCases.excluirContaPacienteLogado(usuario.username)
     return c.json(excluido)
   }
 

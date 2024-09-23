@@ -13,7 +13,7 @@ export const getPacienteRoute = new OpenAPIHono<{
 
 const route = createRoute({
   method: "get",
-  path: "/paciente/{cpf}",
+  path: "/paciente/{username}",
   tags: ["Paciente"],
   request: {
     params: FetchUserParamSchema
@@ -37,11 +37,11 @@ getPacienteRoute.openapi(route, async (c) => {
   const pacienteGateway = c.get("pacienteGateway")
   const medicoGateway = c.get("medicoGateway")
 
-  const { cpf } = c.req.valid('param')
+  const { username } = c.req.valid('param')
 
   if (usuario.tipo === "medico") {
     const medicoUseCases = new MedicoUseCases(pacienteGateway, medicoGateway)
-    const paciente = await medicoUseCases.obterInformacoesPaciente(cpf)
+    const paciente = await medicoUseCases.obterInformacoesPaciente(username)
     if (!paciente) {
       throw new HTTPException(404, {message: "Paciente não encontrado"})
     }
@@ -50,7 +50,7 @@ getPacienteRoute.openapi(route, async (c) => {
 
   if (usuario.tipo === "admin") {
     const adminUseCases = new AdminUseCases(pacienteGateway, medicoGateway)
-    const paciente = await adminUseCases.obterInformacoesPaciente(cpf)
+    const paciente = await adminUseCases.obterInformacoesPaciente(username)
     if (!paciente) {
       throw new HTTPException(404, {message: "Paciente não encontrado"})
     }
