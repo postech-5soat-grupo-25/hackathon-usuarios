@@ -15,6 +15,11 @@ const route = createRoute({
   method: "get",
   path: "/medico/{username}",
   tags: ["Médico"],
+  security: [
+    {
+      Bearer: [],
+    },
+  ],
   request: {
     params: FetchUserParamSchema
   },

@@ -14,6 +14,11 @@ const route = createRoute({
   method: "get",
   path: "/me",
   tags: ["Usuário Logado"],
+  security: [
+    {
+      Bearer: [],
+    },
+  ],
   responses: {
     200: {
       content: {

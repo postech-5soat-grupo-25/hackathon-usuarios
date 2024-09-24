@@ -13,6 +13,11 @@ const route = createRoute({
   method: "delete",
   path: "/paciente/{username}",
   tags: ["Paciente"],
+  security: [
+    {
+      Bearer: [],
+    },
+  ],
   request: {
     params: FetchUserParamSchema,
   },

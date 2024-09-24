@@ -13,6 +13,11 @@ const route = createRoute({
   method: "delete",
   path: "/me",
   tags: ["Usuário Logado"],
+  security: [
+    {
+      Bearer: [],
+    },
+  ],
   responses: {
     200: {
       content: {

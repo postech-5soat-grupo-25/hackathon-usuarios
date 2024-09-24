@@ -29,6 +29,11 @@ app.get('/', (c) => {
   return c.redirect('/docs')
 })
 
+app.openAPIRegistry.registerComponent('securitySchemes', 'Bearer', {
+  type: 'http',
+  scheme: 'bearer',
+})
+
 app.get('/docs', swaggerUI({ url: '/openapi' }))
 
 app.route(apiRoute, cadastroRoute)

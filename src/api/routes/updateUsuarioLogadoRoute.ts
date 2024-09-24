@@ -15,6 +15,11 @@ const route = createRoute({
   method: "put",
   path: "/me",
   tags: ["Usuário Logado"],
+  security: [
+    {
+      Bearer: [],
+    },
+  ],
   request: {
     body: {
       content: {

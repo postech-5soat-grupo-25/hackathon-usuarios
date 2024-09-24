@@ -13,6 +13,11 @@ const route = createRoute({
   method: "get",
   path: "/paciente",
   tags: ["Paciente"],
+  security: [
+    {
+      Bearer: [],
+    },
+  ],
   responses: {
     200: {
       content: {
