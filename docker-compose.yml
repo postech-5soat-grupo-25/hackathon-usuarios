@@ -6,8 +6,6 @@ services:
       context: .
       dockerfile: Dockerfile
     environment:
-      - ENV=development
-    volumes:
-      - .:/app
+      - ENV=production
     ports:
       - "3000:3000"
