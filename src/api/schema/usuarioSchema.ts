@@ -13,6 +13,8 @@ export const UsuarioUpdateInputSchema = z
   })
   .openapi("UsuarioUpdateInput");
 
+export type UsuarioUpdateInput = z.infer<typeof UsuarioUpdateInputSchema>;
+
 export const FetchUserParamSchema = z.object({
   username: z.string()
     .openapi({

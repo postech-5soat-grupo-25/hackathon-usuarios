@@ -14,31 +14,31 @@ const medicos: Usuario[] = [
 ];
 
 export const InMemoryMedicoGateway: MedicoGateway = {
-  async cadastrarMedico(paciente: MedicoInput) {
-    const newMedico = UsuarioSchema.parse(paciente);
+  async cadastrarMedico(medico: MedicoInput) {
+    const newMedico = UsuarioSchema.parse(medico);
     medicos.push(newMedico);
     return newMedico;
   },
   async buscarMedicoPorUsername(username: string) {
-    return medicos.find((paciente) => paciente.username === username) ?? null;
+    return medicos.find((medico) => medico.username === username) ?? null;
   },
   async listarMedicos() {
     return medicos;
   },
-  async atualizarMedico(paciente: MedicoUpdateInput) {
-    const pacienteIndex = medicos.findIndex((paciente) => paciente.username === paciente.username);
-    if (pacienteIndex === -1) {
+  async atualizarMedico(medico: MedicoUpdateInput) {
+    const medicoIndex = medicos.findIndex((medico) => medico.username === medico.username);
+    if (medicoIndex === -1) {
       throw new Error("Medico não encontrado");
     }
-    medicos[pacienteIndex] = { ...medicos[pacienteIndex], ...paciente };
-    return medicos[pacienteIndex];
+    medicos[medicoIndex] = { ...medicos[medicoIndex], ...medico };
+    return medicos[medicoIndex];
   },
   async deletarMedico(username: string) {
-    const pacienteIndex = medicos.findIndex((paciente) => paciente.username === username);
-    if (pacienteIndex === -1) {
+    const medicoIndex = medicos.findIndex((medico) => medico.username === username);
+    if (medicoIndex === -1) {
       return false;
     }
-    medicos.splice(pacienteIndex, 1);
+    medicos.splice(medicoIndex, 1);
     return true;
   }
 };

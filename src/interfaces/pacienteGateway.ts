@@ -7,6 +7,6 @@ export interface PacienteGateway {
   cadastrarPaciente(paciente: PacienteInput): Promise<Usuario>;
   buscarPacientePorUsername(username: string): Promise<Usuario | null>;
   listarPacientes(): Promise<Usuario[]>;
-  atualizarPaciente(paciente: PacienteUpdateInput): Promise<Usuario>;
+  atualizarPaciente(paciente: PacienteUpdateInput): Promise<Usuario | null>;
   deletarPaciente(username: string): Promise<boolean>;
 }
