@@ -39,4 +39,6 @@ export const CpfSchema = z.string().refine((value) => {
   }
 
   return true;
+}, {
+  message: 'CPF inválido',
 });

@@ -34,7 +34,6 @@ const parse_cognito_to_usuario =
       acc[attribute.Name] = attribute.Value;
       return acc;
     }, {});
-    console.info("User found", { user, userAttributes });
     return UsuarioSchema.parse({
       nome: userAttributes[usuarioXcognito.nome],
       username: user.Username,
@@ -46,10 +45,10 @@ const parse_cognito_to_usuario =
   };
 
 export class CognitoClient {
-  private client: CognitoIdentityProviderClient;
-  private userPoolId: string;
-  private userType: "medico" | "paciente";
-  private userGroup: "Medicos" | "Pacientes";
+  client: CognitoIdentityProviderClient;
+  userPoolId: string;
+  userType: "medico" | "paciente";
+  userGroup: "Medicos" | "Pacientes";
 
   constructor(userPoolId: string, userType: "medico" | "paciente") {
     this.client = new CognitoIdentityProviderClient();

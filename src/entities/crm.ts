@@ -7,4 +7,6 @@ export const CrmSchema = z.string().refine((value) => {
   }
 
   return true;
+}, {
+  message: 'CRM inválido. O CRM deve conter 7 dígitos',
 });
