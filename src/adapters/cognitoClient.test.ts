@@ -20,8 +20,6 @@ mock.module("@aws-sdk/client-cognito-identity-provider", () => ({
   ListUsersInGroupCommand: mock(),
 }));
 
-const bla = mock();
-
 describe("Adapter: Cognito Client", () => {
   const cognitoClientMedico = new CognitoClient('user_pool_id', 'medico');
   const mockSendMedico = mock();
