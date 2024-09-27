@@ -1,25 +1,10 @@
 import { expect, test, describe, mock } from "bun:test";
 import { ExternalUseCases } from "./externalUseCases";
-import { PacienteGateway, PacienteInput } from "../interfaces/pacienteGateway";
-import { MedicoGateway, MedicoInput } from "../interfaces/medicoGateway";
+import { PacienteInput } from "../interfaces/pacienteGateway";
+import { MedicoInput } from "../interfaces/medicoGateway";
 import { UsuarioCreateInputSchema } from "../entities/usuario";
 
-const mockPacienteGateway: PacienteGateway = {
-  buscarPacientePorUsername:
-    mock() as PacienteGateway["buscarPacientePorUsername"],
-  listarPacientes: mock() as PacienteGateway["listarPacientes"],
-  atualizarPaciente: mock() as PacienteGateway["atualizarPaciente"],
-  deletarPaciente: mock() as PacienteGateway["deletarPaciente"],
-  cadastrarPaciente: mock() as PacienteGateway["cadastrarPaciente"],
-};
-
-const mockMedicoGateway: MedicoGateway = {
-  buscarMedicoPorUsername: mock() as MedicoGateway["buscarMedicoPorUsername"],
-  listarMedicos: mock() as MedicoGateway["listarMedicos"],
-  atualizarMedico: mock() as MedicoGateway["atualizarMedico"],
-  deletarMedico: mock() as MedicoGateway["deletarMedico"],
-  cadastrarMedico: mock() as MedicoGateway["cadastrarMedico"],
-};
+import { mockMedicoGateway, mockPacienteGateway } from "./__mocks__/gateways";
 
 describe("Caso de uso: External", () => {
   const externalUseCases = new ExternalUseCases(

@@ -1,20 +1,12 @@
-import { expect, test, describe, mock, beforeEach, } from "bun:test";
+import { expect, test, describe, mock, beforeEach, Mock } from "bun:test";
 import { CognitoClient } from "./cognitoClient";
 import { UsuarioCreateInputSchema } from "../entities/usuario";
 
-class MockCognitoIdentityProviderClient {
-  constructor() {}
-}
-
 import {
-  CognitoIdentityProviderClient,
-  AdminGetUserCommand,
   AdminCreateUserCommand,
   AdminDeleteUserCommand,
   AdminUpdateUserAttributesCommand,
-  AdminListGroupsForUserCommand,
   AdminAddUserToGroupCommand,
-  ListUsersInGroupCommand
 } from "@aws-sdk/client-cognito-identity-provider";
 
 mock.module("@aws-sdk/client-cognito-identity-provider", () => ({
@@ -41,6 +33,14 @@ describe("Adapter: Cognito Client", () => {
   // @ts-ignore
   cognitoClientPaciente.client = {send: mockSendPaciente};
 
+  const successResponse = (mockSend: Mock<any>) => {
+    mockSend.mockResolvedValueOnce({
+      '$metadata': {
+        httpStatusCode: 200,
+      },
+    });
+  }
+
   beforeEach(() => {
     mockSendMedico.mockClear();
   });
@@ -57,18 +57,10 @@ describe("Adapter: Cognito Client", () => {
     });
 
     // Criação do usuário
-    mockSendPaciente.mockResolvedValueOnce({
-      '$metadata': {
-        httpStatusCode: 200,
-      },
-    });
+    successResponse(mockSendPaciente);
 
     // Adição do usuário ao grupo
-    mockSendPaciente.mockResolvedValueOnce({
-      '$metadata': {
-        httpStatusCode: 200,
-      },
-    });
+    successResponse(mockSendPaciente);
 
     // Busca info do usuário criado
     mockSendPaciente.mockResolvedValueOnce({
@@ -141,18 +133,10 @@ describe("Adapter: Cognito Client", () => {
     });
 
     // Criação do usuário
-    mockSendMedico.mockResolvedValueOnce({
-      '$metadata': {
-        httpStatusCode: 200,
-      },
-    });
+    successResponse(mockSendMedico);
 
     // Adição do usuário ao grupo
-    mockSendMedico.mockResolvedValueOnce({
-      '$metadata': {
-        httpStatusCode: 200,
-      },
-    });
+    successResponse(mockSendMedico);
 
     // Busca info do usuário criado
     mockSendMedico.mockResolvedValueOnce({
@@ -214,11 +198,7 @@ describe("Adapter: Cognito Client", () => {
   });
 
   test("Deleta usuário", async () => {
-    mockSendMedico.mockResolvedValueOnce({
-      '$metadata': {
-        httpStatusCode: 200,
-      },
-    });
+    successResponse(mockSendMedico);
 
     await cognitoClientMedico.deleteUser('username');
 
@@ -234,21 +214,17 @@ describe("Adapter: Cognito Client", () => {
   test("Atualiza usuário", async () => {
 
     // Update the user
-    mockSendPaciente.mockResolvedValueOnce({
-      '$metadata': {
-        httpStatusCode: 200,
-      },
-    });
+    successResponse(mockSendPaciente);
 
     // Busca info do usuário criado
     mockSendPaciente.mockResolvedValueOnce({
       '$metadata': {
         httpStatusCode: 200,
       },
-      Username: 'username',
+      Username: 'username_2',
       UserAttributes: [
-        { Name: 'name', Value: 'Paciente' },
-        { Name: 'email', Value: 'paciente@email.com' },
+        { Name: 'name', Value: 'Novo Nome' },
+        { Name: 'email', Value: 'novo@email.com' },
         { Name: 'custom:cpf', Value: '350.933.020-07' },
         { Name: 'custom:tipo', Value: 'paciente' },
       ],
@@ -265,14 +241,14 @@ describe("Adapter: Cognito Client", () => {
     });
 
     await cognitoClientPaciente.updateUserAttributes({
-      username: 'username',
-      nome: 'Novo nome',
+      username: 'username_2',
+      nome: 'Novo Nome',
     });
 
     expect(mockSendPaciente).toHaveBeenCalledWith(
       new AdminUpdateUserAttributesCommand({
         UserPoolId: 'user_pool_id',
-        Username: 'username',
+        Username: 'username_2',
         UserAttributes: [
           { Name: 'name', Value: 'Novo nome' },
         ],
