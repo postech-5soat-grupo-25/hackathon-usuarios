@@ -20,7 +20,7 @@ export type Variables = UseCasesVariables & AuthVariables
 
 export const app = new OpenAPIHono<{Variables: Variables}>()
 
-const apiRoute = '/'
+const apiRoute = '/usuarios-service/'
 
 app.use(logger())
 app.use(setupGateways)
