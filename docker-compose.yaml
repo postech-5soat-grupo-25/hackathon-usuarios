@@ -1,11 +1,12 @@
-version: '3.8'
-
 services:
   app:
     build:
       context: .
       dockerfile: Dockerfile
     environment:
-      - ENV=production
+      ENV: production
+      PORT: 8080
+      USERPOOL_ID: 15671651
     ports:
-      - "3000:3000"
+      - "8080:8080"
+

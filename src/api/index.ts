@@ -22,7 +22,7 @@ export const app = new OpenAPIHono<{Variables: Variables}>()
 
 const apiRoute = '/usuarios-service/'
 
-app.use(logger())
+app.use("*", logger())
 app.use(setupGateways)
 
 app.get('/', (c) => {
@@ -63,3 +63,10 @@ app.doc('/openapi', {
     title: 'Hackaton Pós Tech - User Service',
   },
 })
+
+const port = 8080;
+
+export default {
+  port, // Defina a porta desejada
+  fetch: app.fetch // O Hono utiliza a função fetch para manipular requisições
+};

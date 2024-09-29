@@ -6,8 +6,9 @@ const configSchema = z.object({
   userpoolId: z.string(),
 })
 
+console.log("test")
 export const config = configSchema.parse({
-  env: process.env.NODE_ENV,
-  port: process.env.PORT,
-  userpoolId: process.env.USERPOOL_ID,
+  env: "production",
+  port: "8080",
+  userpoolId: "123456",
 })
