@@ -6,6 +6,7 @@ import {
   AdminUpdateUserAttributesCommand,
   AdminListGroupsForUserCommand,
   AdminAddUserToGroupCommand,
+  AdminSetUserPasswordCommand,
   ListUsersInGroupCommand
 } from "@aws-sdk/client-cognito-identity-provider";
 import {
@@ -28,7 +29,7 @@ const tipoXgroup = {
 };
 
 const parse_cognito_to_usuario =
-  (userType: "medico" | "paciente") => (user: any) => {
+  (userType: "Medicos" | "Pacientes") => (user: any) => {
     const attributes = user.Attributes || user.UserAttributes || [];
     const userAttributes = attributes.reduce((acc: any, attribute: any) => {
       acc[attribute.Name] = attribute.Value;
@@ -47,11 +48,20 @@ const parse_cognito_to_usuario =
 export class CognitoClient {
   client: CognitoIdentityProviderClient;
   userPoolId: string;
-  userType: "medico" | "paciente";
+  userType: "Medicos" | "Pacientes";
   userGroup: "Medicos" | "Pacientes";
 
-  constructor(userPoolId: string, userType: "medico" | "paciente") {
+  constructor(userPoolId: string, userType: "Medicos" | "Pacientes") {
     this.client = new CognitoIdentityProviderClient();
+
+    this.client = new CognitoIdentityProviderClient({
+        region: "us-east-1",
+        credentials: {
+            accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+            secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+        },
+    });
+
     this.userType = userType;
     this.userGroup = tipoXgroup[userType] as "Medicos" | "Pacientes";
     this.userPoolId = userPoolId;
@@ -98,6 +108,7 @@ export class CognitoClient {
       Username: userInput.username,
       UserAttributes,
       TemporaryPassword: userInput.senha,
+      MessageAction: "SUPPRESS", // Evita o envio do e-mail de verificação
     });
     const cognitoResponse = await this.client.send(command);
 
@@ -107,6 +118,37 @@ export class CognitoClient {
     ) {
       return null;
     }
+
+    // Confirmar manualmente o usuário
+    const confirmCommand = new AdminUpdateUserAttributesCommand({
+      UserPoolId: this.userPoolId,
+      Username: userInput.username,
+      UserAttributes: [{ Name: 'email_verified', Value: 'true' }],
+    });
+    const confirmResponse = await this.client.send(confirmCommand);
+
+    if (
+      !confirmResponse.$metadata.httpStatusCode ||
+      confirmResponse.$metadata.httpStatusCode !== 200
+    ) {
+      return null;
+    }
+
+    // Definir a senha como permanente
+    const setPasswordCommand = new AdminSetUserPasswordCommand({
+      UserPoolId: this.userPoolId,
+      Username: userInput.username,
+      Password: userInput.senha,
+      Permanent: true, // Marca a senha como permanente
+    });
+    const setPasswordResponse = await this.client.send(setPasswordCommand);
+
+    if (
+      !setPasswordResponse.$metadata.httpStatusCode ||
+      setPasswordResponse.$metadata.httpStatusCode !== 200
+    ) {
+      return null;
+  }
 
     const addGroupCommand = new AdminAddUserToGroupCommand({
       UserPoolId: this.userPoolId,

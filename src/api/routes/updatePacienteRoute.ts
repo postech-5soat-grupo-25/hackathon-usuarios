@@ -51,7 +51,7 @@ updatePacienteRoute.openapi(route, async (c) => {
   const { username } = c.req.valid("param");
   const usuarioInput = await c.req.json()
 
-  if (usuario.tipo === "admin") {
+  if (usuario.tipo === "Admins") {
     const adminUseCases = new AdminUseCases(pacienteGateway, medicoGateway);
     const medico = await adminUseCases.atualizarInformacoesPaciente(username, usuarioInput);
     return c.json(medico);

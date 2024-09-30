@@ -34,7 +34,7 @@ app.openAPIRegistry.registerComponent('securitySchemes', 'Bearer', {
   scheme: 'bearer',
 })
 
-app.get('/docs', swaggerUI({ url: '/openapi' }))
+app.get('/usuarios-service/docs', swaggerUI({ url: '/openapi' }))
 
 app.get('/health', (c) => {
   return c.json({ status: 'UP' })

@@ -42,7 +42,7 @@ deletePacienteRoute.openapi(route, async (c) => {
 
   const { username } = c.req.valid("param");
 
-  if (usuario.tipo === "admin") {
+  if (usuario.tipo === "Admins") {
     const adminUseCases = new AdminUseCases(pacienteGateway, medicoGateway);
     const excluido = await adminUseCases.excluirPaciente(username);
     return c.json(excluido);

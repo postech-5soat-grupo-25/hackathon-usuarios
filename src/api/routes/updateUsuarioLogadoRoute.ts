@@ -50,7 +50,7 @@ updateUsuarioLogadoRoute.openapi(route, async (c) => {
 
   const usuarioInput = await c.req.json()
 
-  if (usuario.tipo === "medico") {
+  if (usuario.tipo === "Medicos") {
     const medicoUseCases = new MedicoUseCases(pacienteGateway, medicoGateway)
     const medico = await medicoUseCases.atualizarInformacoesMedicoLogado(usuario.username, usuarioInput)
     if (!medico) {
@@ -59,7 +59,7 @@ updateUsuarioLogadoRoute.openapi(route, async (c) => {
     return c.json(medico)
   }
 
-  if (usuario.tipo === "paciente") {
+  if (usuario.tipo === "Pacientes") {
     const pacienteUseCases = new PacienteUseCases(pacienteGateway, medicoGateway)
     const paciente = await pacienteUseCases.atualizarInformacoesPacienteLogado(usuario.username, usuarioInput)
     if (!paciente) {

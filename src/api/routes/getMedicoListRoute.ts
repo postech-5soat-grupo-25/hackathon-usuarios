@@ -37,7 +37,7 @@ getMedicoListRoute.openapi(route, async (c) => {
   const pacienteGateway = c.get("pacienteGateway")
   const medicoGateway = c.get("medicoGateway")
 
-  if (usuario.tipo === "admin") {
+  if (usuario.tipo === "Admins") {
     const adminUseCases = new AdminUseCases(pacienteGateway, medicoGateway)
     const medicos = await adminUseCases.listarMedicos()
     return c.json(medicos)

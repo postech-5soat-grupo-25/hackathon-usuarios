@@ -34,10 +34,13 @@ const route = createRoute({
 getUsuarioLogadoRoute.use('/me', auth)
 
 getUsuarioLogadoRoute.openapi(route, async (c) => {
+  console.log("Iniciando /me")
+
   const usuario = c.get("usuario")
   const pacienteGateway = c.get("pacienteGateway")
   const medicoGateway = c.get("medicoGateway")
-  if (usuario.tipo === "medico") {
+  if (usuario.tipo === "Medicos") {
+    console.log("Iniciando fluxo Medicos")
     const medicoUseCases = new MedicoUseCases(pacienteGateway, medicoGateway)
     const medico = await medicoUseCases.obterInformacoesMedicoLogado(usuario.username)
     if (!medico) {
@@ -46,7 +49,8 @@ getUsuarioLogadoRoute.openapi(route, async (c) => {
     return c.json(medico)
   }
 
-  if (usuario.tipo === "paciente") {
+  if (usuario.tipo === "Pacientes") {
+    console.log("Iniciando fluxo Pacientes")
     const pacienteUseCases = new PacienteUseCases(pacienteGateway, medicoGateway)
     const paciente = await pacienteUseCases.obterInformacoesPacienteLogado(usuario.username)
     if (!paciente) {

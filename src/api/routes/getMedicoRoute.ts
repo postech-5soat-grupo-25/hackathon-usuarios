@@ -44,7 +44,7 @@ getMedicoRoute.openapi(route, async (c) => {
 
   const { username } = c.req.valid('param')
 
-  if (usuario.tipo === "paciente") {
+  if (usuario.tipo === "Pacientes") {
     const pacienteUseCases = new PacienteUseCases(pacienteGateway, medicoGateway)
     const medico = await pacienteUseCases.obterInformacoesMedico(username)
     if (!medico) {
@@ -53,7 +53,7 @@ getMedicoRoute.openapi(route, async (c) => {
     return c.json(medico)
   }
 
-  if (usuario.tipo === "admin") {
+  if (usuario.tipo === "Admins") {
     const adminUseCases = new AdminUseCases(pacienteGateway, medicoGateway)
     const medico = await adminUseCases.obterInformacoesMedico(username)
     if (!medico) {
