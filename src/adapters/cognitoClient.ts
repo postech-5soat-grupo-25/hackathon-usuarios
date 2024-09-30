@@ -6,7 +6,8 @@ import {
   AdminUpdateUserAttributesCommand,
   AdminListGroupsForUserCommand,
   AdminAddUserToGroupCommand,
-  ListUsersInGroupCommand
+  ListUsersInGroupCommand,
+  AdminSetUserPasswordCommand
 } from "@aws-sdk/client-cognito-identity-provider";
 import {
   Usuario,
@@ -98,6 +99,7 @@ export class CognitoClient {
       Username: userInput.username,
       UserAttributes,
       TemporaryPassword: userInput.senha,
+      MessageAction: "SUPPRESS", // Evita o envio do e-mail de verificação
     });
     const cognitoResponse = await this.client.send(command);
 
@@ -119,6 +121,37 @@ export class CognitoClient {
     if (
       !addGroupResponse.$metadata.httpStatusCode ||
       addGroupResponse.$metadata.httpStatusCode !== 200
+    ) {
+      return null;
+    }
+
+     // Confirmar manualmente o usuário
+     const confirmCommand = new AdminUpdateUserAttributesCommand({
+      UserPoolId: this.userPoolId,
+      Username: userInput.username,
+      UserAttributes: [{ Name: 'email_verified', Value: 'true' }],
+    });
+    const confirmResponse = await this.client.send(confirmCommand);
+
+    if (
+      !confirmResponse.$metadata.httpStatusCode ||
+      confirmResponse.$metadata.httpStatusCode !== 200
+    ) {
+      return null;
+    }
+
+    // Definir a senha como permanente
+    const setPasswordCommand = new AdminSetUserPasswordCommand({
+      UserPoolId: this.userPoolId,
+      Username: userInput.username,
+      Password: userInput.senha,
+      Permanent: true, // Marca a senha como permanente
+    });
+    const setPasswordResponse = await this.client.send(setPasswordCommand);
+
+    if (
+      !setPasswordResponse.$metadata.httpStatusCode ||
+      setPasswordResponse.$metadata.httpStatusCode !== 200
     ) {
       return null;
     }

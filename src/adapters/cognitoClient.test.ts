@@ -60,6 +60,12 @@ describe("Adapter: Cognito Client", () => {
     // Adição do usuário ao grupo
     successResponse(mockSendPaciente);
 
+    // Confirma a conta de usuario
+    successResponse(mockSendPaciente);
+
+    // Define a senha do usuário
+    successResponse(mockSendPaciente);
+
     // Busca info do usuário criado
     mockSendPaciente.mockResolvedValueOnce({
       '$metadata': {
@@ -94,7 +100,7 @@ describe("Adapter: Cognito Client", () => {
       tipo: "paciente",
     });
 
-    expect(mockSendPaciente).toHaveBeenCalledTimes(4);
+    expect(mockSendPaciente).toHaveBeenCalledTimes(6);
     expect(mockSendPaciente).toHaveBeenCalledWith(
       new AdminCreateUserCommand({
         UserPoolId: 'user_pool_id',
@@ -136,6 +142,12 @@ describe("Adapter: Cognito Client", () => {
     // Adição do usuário ao grupo
     successResponse(mockSendMedico);
 
+    // Confirma a conta de usuario
+    successResponse(mockSendMedico);
+
+    // Define a senha do usuário
+    successResponse(mockSendMedico);
+
     // Busca info do usuário criado
     mockSendMedico.mockResolvedValueOnce({
       '$metadata': {
@@ -171,7 +183,7 @@ describe("Adapter: Cognito Client", () => {
       tipo: "medico",
     });
 
-    expect(mockSendMedico).toHaveBeenCalledTimes(4);
+    expect(mockSendMedico).toHaveBeenCalledTimes(6);
     expect(mockSendMedico).toHaveBeenCalledWith(
       new AdminCreateUserCommand({
         UserPoolId: 'user_pool_id',
